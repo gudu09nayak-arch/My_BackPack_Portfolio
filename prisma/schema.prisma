@@ -1,0 +1,120 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Site Content - Stores all editable website content
+model SiteContent {
+  id        String   @id @default(cuid())
+  key       String   @unique // e.g., "hero_title", "hero_subtitle", "about_title"
+  value     String   // The content value
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Services - Tour services offered
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  iconName    String   // Icon identifier for frontend
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Upcoming Features - For the sneak peek section
+model UpcomingFeature {
+  id        String   @id @default(cuid())
+  title     String
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Contact Form Leads
+model Lead {
+  id           String   @id @default(cuid())
+  name         String
+  phone        String
+  email        String
+  tripType     String   // Spiritual, Beach, Adventure, Culture, Surprise Me!
+  travelDates  String?
+  message      String?
+  status       String   @default("new") // new, contacted, converted, closed
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// Waitlist for upcoming app
+model WaitlistEntry {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  source    String   @default("portfolio") // Where they signed up from
+  createdAt DateTime @default(now())
+}
+
+// Core Pillars - About section features
+model CorePillar {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  iconName    String
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Hero Slides - For image carousel
+model HeroSlide {
+  id          String   @id @default(cuid())
+  imageUrl    String
+  altText     String
+  title       String?
+  subtitle    String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Partner Logos - Trust badges
+model Partner {
+  id        String   @id @default(cuid())
+  name      String
+  logoUrl   String
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Social Links
+model SocialLink {
+  id        String   @id @default(cuid())
+  platform  String   // Instagram, Facebook, LinkedIn, etc.
+  url       String
+  iconName  String
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Admin Sessions (simple token-based auth)
+model AdminSession {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
