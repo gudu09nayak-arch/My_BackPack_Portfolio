@@ -86,7 +86,7 @@ export function DataTable({ columns, data, onExport, exportFileName }: DataTable
               </TableRow>
             ) : (
               data.map((row, index) => (
-                <TableRow key={row.id || index} className="hover:bg-slate-50">
+                <TableRow key={String(row.id || index)} className="hover:bg-slate-50">
                   {columns.map((col) => (
                     <TableCell key={col.key}>
                       {col.render
